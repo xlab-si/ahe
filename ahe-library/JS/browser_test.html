@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+Copyright 2018 The Go Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>HE in JS</title>
+</head>
+
+<body>
+<!-- Code that wasm works, just copy -->
+<script src="../wasm/wasm_exec.js"></script>
+<script>
+    if (!WebAssembly.instantiateStreaming) {
+        // polyfill
+        WebAssembly.instantiateStreaming = async (resp, importObject) => {
+            const source = await (await resp).arrayBuffer();
+            return await WebAssembly.instantiate(source, importObject);
+        };
+    }
+
+    const go = new Go();
+    let mod, inst;
+    WebAssembly.instantiateStreaming(fetch("../build/he.wasm"), go.importObject).then(
+        async result => {
+            mod = result.module;
+            inst = result.instance;
+            await go.run(inst);
+        }
+    );
+
+    async function run() {
+        await go.run(inst);
+        inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
+    }
+</script>
+
+
+<script>
+    async function test() {
+        // public key and private attribute keys should in a real scenario be obtained from the key management,
+        // by a https call: see for example ahe-demo/demo_fame.go or ahe-demo/demo_fame.py
+        let keys = AheGenerateMasterKeys()
+        let pk = keys[0];
+        let sk = keys[1]
+
+        let start = Date.now();
+        let msg = "bla"
+        let c = AheEncrypt(msg, "att1 OR att2", pk)
+        console.log("Encryption time", Date.now() - start);
+
+        let ak = AheGenerateAttribKeys(sk, ["att1", "bla2"])
+
+        start = Date.now();
+        let msg2 = AheDecrypt(c, ak, pk)
+        console.log("Decryption time", Date.now() - start);
+
+        console.assert(msg2 == msg)
+    }
+</script>
+
+<button onClick="test();" id="addButton">
+    Start encryption and decryption test.
+</button>
+
+
+</body>
+</html>

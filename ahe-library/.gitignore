@@ -1,0 +1,15 @@
+# generic build
+build/
+
+# Python
+Python/.venv/
+Python/dist/
+Python/**/__pycache__/
+Python/src/ahe_bindings.egg-info/
+Python/doc/build/
+
+# Java
+Java/build/
+Java/doc/
+Java/*.log
+Java/libs/linux-x86-64/

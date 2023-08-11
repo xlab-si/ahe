@@ -1,0 +1,148 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  BuildAndTestLibrary:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.4
+
+      - name: Apt install
+        run: sudo apt install -y python3 gcc make
+
+      - name: Keys for private repo
+        run: echo "machine github.com login tilenmarc password ${{ secrets.GITHUBAPIKEY }}" > ~/.netrc
+
+      - name: Build libahe.so
+        run: |
+          cd ahe-library/cgo
+          make x86_64
+      - name: Build and install Python
+        run: |
+          cd ahe-library/Python
+          make pre-build
+          make build
+          python3 -m pip install dist/ahe_bindings-1.0.4-py3-none-any.whl
+      - name: Build Wasm
+        run: |
+          cd ahe-library/wasm          
+          make build
+      - name: Build Java
+        run: |
+          cd ahe-library/Java
+          make jar
+      - name: Build C
+        run: |
+          cd ahe-library/C
+          make compile
+          
+
+      - name: Test
+        run: |
+          cd ahe-library
+          make test
+        
+  TestKeyManager:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.4
+
+      - name: Keys for private repo
+        run: echo "machine github.com login tilenmarc password ${{ secrets.GITHUBAPIKEY }}" > ~/.netrc
+
+      - name: Test
+        run: |
+          cd ahe-key-server/fame_key_authority/decentralized
+          go test .
+          cd protocol
+          go test -run 'Fame'
+          go test -run 'Mauer'
+          go test -run 'Offline'
+          go test -run 'Spdz'
+          
+  RunDemos:
+    runs-on: ubuntu-20.04
+    needs: TestKeyManager
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.4
+
+      - name: Apt install
+        run: sudo apt install -y python3 gcc make curl
+
+      - name: Keys for private repo
+        run: echo "machine github.com login tilenmarc password ${{ secrets.GITHUBAPIKEY }}" > ~/.netrc
+
+      - name: Build libahe.so
+        run: |
+          cd ahe-library/cgo
+          make x86_64
+      - name: Build and install Python
+        run: |
+          cd ahe-library/Python
+          make pre-build
+          make build
+          python3 -m pip install dist/ahe_bindings-1.0.4-py3-none-any.whl
+      - name: Build Wasm
+        run: |
+          cd ahe-library/wasm          
+          make build
+      - name: Build Java
+        run: |
+          cd ahe-library/Java
+          make jar
+          cd ../../
+          cp ahe-library/build/ahe.jar ahe-demo/Java/libs
+          cp ahe-library/build/libahe.so ahe-demo/Java/libs/linux-x86-64/
+          cp ahe-library/build/libahe.h ahe-demo/Java/libs/linux-x86-64/
+
+      - name: Run key servers
+        run: |
+          cd ahe-key-server
+          docker-compose up &
+          sleep 100
+          curl http://localhost:6903
+          curl http://localhost:6952
+
+      - name: Go Demo
+        run: |
+          cd ahe-demo/
+          make run-go-fame
+          make run-go-fame-decentralized
+      - name: Python Demo
+        run: |
+          cd ahe-demo/
+          make run-python-fame
+          make run-python-fame-decentralized
+          make run-python-maabe
+      - name: Java Demo
+        run: |
+          cd ahe-demo/
+          make run-java
+      - name: JS Demo
+        run: |
+          cd ahe-demo/
+          make run-nodejs
+          

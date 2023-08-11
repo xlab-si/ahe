@@ -1,0 +1,74 @@
+version: "3.3"
+# network_mode: "host"
+services:
+    ma-abe-authority_1:
+        container_name: maabe-authority1
+        image: golang:1.19.4-buster
+        ports:
+            - "6951:6951"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'SCHEME=maabe AUTH_ID=auth1 AUTH_PORT=6951 go run main.go'
+    ma-abe-authority_2:
+        container_name: maabe-authority2
+        image: golang:1.19.4-buster
+        ports:
+            - "6952:6952"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'SCHEME=maabe AUTH_ID=auth2 AUTH_PORT=6952 go run main.go'
+    ma-abe-authority_3:
+        container_name: maabe-authority3
+        image: golang:1.19.4-buster
+        ports:
+            - "6953:6953"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'SCHEME=maabe AUTH_ID=auth3 AUTH_PORT=6953 go run main.go'
+    fame-authority:
+        container_name: fame_authority
+        image: golang:1.19.4-buster
+        ports:
+            - "6902:6902"
+            - "6903:6903"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'SCHEME=fame AUTH_PORT=6903 go run main.go'
+    fame-dec-authority1:
+        container_name: fame-dec-authority1
+        image: golang:1.19.4-buster
+        ports:
+            - "6800:6800"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'MODE=load SCHEME=fame_dec NODE=0 ALL_NODE=3 AUTH_PORT=6800 ADDRESSES=:6803,fame-dec-authority2:6804,fame-dec-authority3:6805 NAMES=node0,node1,node2 CERT=fame_key_authority/decentralized/certs/node0 CACERT=fame_key_authority/decentralized/certs/HEkeyCA go run main.go'
+    fame-dec-authority2:
+        container_name: fame-dec-authority2
+        image: golang:1.19.4-buster
+        ports:
+            - "6801:6801"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'MODE=load SCHEME=fame_dec NODE=1 ALL_NODE=3 AUTH_PORT=6801 ADDRESSES=fame-dec-authority1:6803,:6804,fame-dec-authority3:6805 NAMES=node0,node1,node2 CERT=fame_key_authority/decentralized/certs/node1 CACERT=fame_key_authority/decentralized/certs/HEkeyCA go run main.go'
+    fame-dec-authority3:
+        container_name: fame-dec-authority3
+        image: golang:1.19.4-buster
+        ports:
+            - "6802:6802"
+        volumes:
+            - "~/.netrc:/root/.netrc"
+            - "./:/ma-abe/src/ahe-key-server"
+        working_dir: "/ma-abe/src/ahe-key-server"
+        command: /bin/bash -c 'MODE=load SCHEME=fame_dec NODE=2 ALL_NODE=3 AUTH_PORT=6802 ADDRESSES=fame-dec-authority1:6803,fame-dec-authority2:6804,:6805 NAMES=node0,node1,node2 CERT=fame_key_authority/decentralized/certs/node2 CACERT=fame_key_authority/decentralized/certs/HEkeyCA go run main.go'
