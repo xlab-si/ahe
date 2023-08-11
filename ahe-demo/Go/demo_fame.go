@@ -1,7 +1,11 @@
 package main
 
 import (
+	"ahe-key-server/fame_key_authority/decentralized/protocol"
 	"bytes"
+	fame2 "cgo/fame"
+	"cgo/fame/decentralized"
+	"cgo/signatures"
 	"crypto/rand"
 	"crypto/tls"
 	"crypto/x509"
@@ -9,10 +13,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fentec-project/gofe/abe"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/decentralized/protocol"
-	fame2 "github.com/xlab-si/ahe/ahe-library/cgo/fame"
-	"github.com/xlab-si/ahe/ahe-library/cgo/fame/decentralized"
-	"github.com/xlab-si/ahe/ahe-library/cgo/signatures"
 	"io"
 	"io/ioutil"
 	"log"
