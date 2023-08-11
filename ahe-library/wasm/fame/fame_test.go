@@ -1,9 +1,9 @@
 package fame_test
 
 import (
-	fame2 "cgo/fame"
 	"github.com/fentec-project/gofe/abe"
 	"github.com/stretchr/testify/assert"
+	fame2 "github.com/xlab-si/ahe/ahe-library/cgo/fame"
 	"math/rand"
 	"strconv"
 	"testing"
@@ -126,12 +126,11 @@ func TestFameGoC(t *testing.T) {
 		t.Fatalf("Failed to generate attribute keys")
 	}
 
-
 	pt1, status := fame2.Go_Ahe_fame_Decrypt(fame, ct, keys1, pk)
 	assert.Equal(t, status, 0)
 	assert.Equal(t, msg, pt1)
 
 	pt2, status := fame2.Go_Ahe_fame_Decrypt(fame, ct, keys2, pk)
 	assert.Equal(t, -5, status)
-	assert.Equal(t, "",  pt2)
+	assert.Equal(t, "", pt2)
 }
