@@ -16,6 +16,8 @@ import (
 
 	"github.com/fentec-project/gofe/abe"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/xlab-si/ahe/ahe-library/cgo"
 )
 
 var (

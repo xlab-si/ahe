@@ -6,11 +6,11 @@ require (
 	github.com/fentec-project/bn256 v0.0.0-20190726093940-0d0fc8bfeed0
 	github.com/fentec-project/gofe v0.0.0-20220829150550-ccc7482d20ef
 	github.com/stretchr/testify v1.7.0
+	github.com/xlab-si/ahe/ahe-key-server v0.0.0-20230811130240-99cf2e6bc702
 )
 
 require (
 	github.com/davecgh/go-spew v1.1.0 // indirect
-	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20211115234514-b4de73f9ece8 // indirect
