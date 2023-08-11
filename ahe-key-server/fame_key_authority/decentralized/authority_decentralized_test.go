@@ -1,6 +1,7 @@
 package decentralized
 
 import (
+	"ahe-key-server/fame_key_authority/decentralized/protocol"
 	"bytes"
 	"crypto/rand"
 	"crypto/tls"
@@ -10,7 +11,6 @@ import (
 	"fmt"
 	"github.com/fentec-project/gofe/abe"
 	"github.com/stretchr/testify/assert"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/decentralized/protocol"
 	fame2 "github.com/xlab-si/ahe/ahe-library/cgo/fame"
 	"github.com/xlab-si/ahe/ahe-library/cgo/fame/decentralized"
 	"io"

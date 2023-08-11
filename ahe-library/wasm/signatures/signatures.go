@@ -1,7 +1,7 @@
 package signatures
 
 import (
-	"github.com/xlab-si/ahe/ahe-library/cgo/signatures"
+	"cgo/signatures"
 	"syscall/js"
 )
 

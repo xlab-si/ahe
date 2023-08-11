@@ -1,9 +1,9 @@
 package fame_test
 
 import (
+	fame2 "cgo/fame"
 	"github.com/fentec-project/gofe/abe"
 	"github.com/stretchr/testify/assert"
-	fame2 "github.com/xlab-si/ahe/ahe-library/cgo/fame"
 	"math/rand"
 	"strconv"
 	"testing"

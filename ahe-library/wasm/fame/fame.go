@@ -1,10 +1,10 @@
 package fame
 
 import (
+	"ahe-key-server/fame_key_authority/decentralized/protocol"
+	"cgo/fame"
+	"cgo/fame/decentralized"
 	"github.com/fentec-project/gofe/abe"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/decentralized/protocol"
-	"github.com/xlab-si/ahe/ahe-library/cgo/fame"
-	"github.com/xlab-si/ahe/ahe-library/cgo/fame/decentralized"
 	"strings"
 	"syscall/js"
 )

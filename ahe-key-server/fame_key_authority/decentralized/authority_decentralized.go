@@ -1,6 +1,9 @@
 package decentralized
 
 import (
+	"ahe-key-server/fame_key_authority/decentralized/protocol"
+	"ahe-key-server/fame_key_authority/single"
+	"ahe-key-server/signature"
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
@@ -9,9 +12,6 @@ import (
 	"fmt"
 	"github.com/fentec-project/gofe/abe"
 	"github.com/gorilla/mux"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/decentralized/protocol"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/single"
-	"github.com/xlab-si/ahe/ahe-key-server/signature"
 	"github.com/xlab-si/ahe/ahe-library/cgo/fame"
 	"io"
 	"math/big"

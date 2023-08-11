@@ -1,11 +1,11 @@
 package single
 
 import (
+	"ahe-key-server/signature"
 	"encoding/json"
 	"fmt"
 	"github.com/fentec-project/gofe/abe"
 	"github.com/gorilla/mux"
-	"github.com/xlab-si/ahe/ahe-key-server/signature"
 	"github.com/xlab-si/ahe/ahe-library/cgo/fame"
 	"io"
 	"net/http"

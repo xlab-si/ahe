@@ -1,10 +1,10 @@
 package maabe_key_authority
 
 import (
+	"ahe-key-server/signature"
 	"encoding/json"
 	"fmt"
 	"github.com/fentec-project/gofe/abe"
-	"github.com/xlab-si/ahe/ahe-key-server/signature"
 	"github.com/xlab-si/ahe/ahe-library/cgo/maabe"
 	"io"
 	"net/http"

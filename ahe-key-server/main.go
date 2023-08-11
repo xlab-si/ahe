@@ -1,10 +1,10 @@
 package main
 
 import (
+	"ahe-key-server/fame_key_authority/decentralized"
+	"ahe-key-server/fame_key_authority/single"
+	"ahe-key-server/maabe_key_authority"
 	"fmt"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/decentralized"
-	"github.com/xlab-si/ahe/ahe-key-server/fame_key_authority/single"
-	"github.com/xlab-si/ahe/ahe-key-server/maabe_key_authority"
 	"os"
 	"strconv"
 	"strings"
